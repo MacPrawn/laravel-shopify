@@ -60,16 +60,6 @@ class ShopifyAppProvider extends ServiceProvider
     const CSINGLETON = 'singleton';
 
     /**
-     * Boot the routes for the package.
-     *
-     * @return void
-     */
-    private function bootRoutes(): void
-    {
-        $this->loadRoutesFrom(__DIR__.'/resources/routes.php');
-    }
-
-    /**
      * Bootstrap the application services.
      *
      * @return void
