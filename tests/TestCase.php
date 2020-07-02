@@ -4,6 +4,7 @@ namespace Osiset\ShopifyApp\Test;
 
 use Closure;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 use Osiset\BasicShopifyAPI\Options;
 use Osiset\ShopifyApp\ShopifyAppProvider;
 use Orchestra\Database\ConsoleServiceProvider;
@@ -24,7 +25,8 @@ abstract class TestCase extends OrchestraTestCase
         $this->withFactories(__DIR__.'/../src/ShopifyApp/resources/database/factories');
 
         // Assign the user model
-        $this->model = $this->app['config']->get('auth.providers.users.model');
+        //$this->model = $this->app['config']->get('auth.providers.users.model');
+        $this->model = Config::get('shopify-app.shop_model', Config::get('auth.providers.users.model'));
     }
 
     protected function getPackageProviders($app): array
@@ -51,7 +53,8 @@ abstract class TestCase extends OrchestraTestCase
             'database' => ':memory:',
             'prefix'   => '',
         ]);
-        $app['config']->set('auth.providers.users.model', UserStub::class);
+        // $app['config']->set('auth.providers.users.model', UserStub::class);
+        $app['config']->set('shopify-app.shop_model', UserStub::class);
     }
 
     protected function setupDatabase($app)

@@ -60,6 +60,16 @@ class ShopifyAppProvider extends ServiceProvider
     const CSINGLETON = 'singleton';
 
     /**
+     * Boot the routes for the package.
+     *
+     * @return void
+     */
+    private function bootRoutes(): void
+    {
+        $this->loadRoutesFrom(__DIR__.'/resources/routes.php');
+    }
+
+    /**
      * Bootstrap the application services.
      *
      * @return void
@@ -102,7 +112,8 @@ class ShopifyAppProvider extends ServiceProvider
 
             // Queriers
             IShopQuery::class => [self::CSINGLETON, function () {
-                $model = $this->app['config']->get('auth.providers.users.model');
+                // $model = $this->app['config']->get('auth.providers.users.model');
+                $model = config('shopify-app.shop_model', config('auth.providers.users.model'));
                 $modelInstance = new $model();
 
                 return new ShopQuery(
@@ -340,7 +351,8 @@ class ShopifyAppProvider extends ServiceProvider
      */
     private function bootObservers(): void
     {
-        $model = $this->app['config']->get('auth.providers.users.model');
+        // $model = $this->app['config']->get('auth.providers.users.model');
+        $model = config('shopify-app.shop_model', config('auth.providers.users.model'));
         $model::observe($this->app->make(ShopObserver::class));
     }
 
