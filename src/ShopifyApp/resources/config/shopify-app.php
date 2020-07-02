@@ -32,7 +32,7 @@ return [
     | If empty, it will revert to auth.providers.users.model
     |
     */
-    'shop_model' => env('SHOPIFY_SHOP_MODEL', ''),
+    'shop_model' => config('auth.providers.users.model'),
 
     /*
     |--------------------------------------------------------------------------

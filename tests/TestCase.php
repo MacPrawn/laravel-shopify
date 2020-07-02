@@ -25,8 +25,8 @@ abstract class TestCase extends OrchestraTestCase
         $this->withFactories(__DIR__.'/../src/ShopifyApp/resources/database/factories');
 
         // Assign the user model
-        //$this->model = $this->app['config']->get('auth.providers.users.model');
-        $this->model = Config::get('shopify-app.shop_model', Config::get('auth.providers.users.model'));
+        // $this->model = $this->app['config']->get('auth.providers.users.model');
+        $this->model = $this->app['config']->get('shopify-app.shop_model');
     }
 
     protected function getPackageProviders($app): array

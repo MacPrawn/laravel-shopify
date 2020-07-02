@@ -3,7 +3,7 @@
 use Faker\Generator as Faker;
 use Illuminate\Support\Facades\Config;
 
-$model = Config::get('shopify-app.shop_model', Config::get('auth.providers.users.model'));
+$model = Config::get('shopify-app.shop_model');
 
 $factory->define($model, function (Faker $faker) {
     return [

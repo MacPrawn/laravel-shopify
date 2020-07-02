@@ -113,7 +113,7 @@ class ShopifyAppProvider extends ServiceProvider
             // Queriers
             IShopQuery::class => [self::CSINGLETON, function () {
                 // $model = $this->app['config']->get('auth.providers.users.model');
-                $model = config('shopify-app.shop_model', config('auth.providers.users.model'));
+                $model = $this->app['config']->get('shopify-app.shop_model');
                 $modelInstance = new $model();
 
                 return new ShopQuery(
@@ -352,7 +352,7 @@ class ShopifyAppProvider extends ServiceProvider
     private function bootObservers(): void
     {
         // $model = $this->app['config']->get('auth.providers.users.model');
-        $model = config('shopify-app.shop_model', config('auth.providers.users.model'));
+        $model = $this->app['config']->get('shopify-app.shop_model');
         $model::observe($this->app->make(ShopObserver::class));
     }
 
