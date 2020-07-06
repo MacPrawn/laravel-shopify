@@ -14,6 +14,7 @@ use Osiset\ShopifyApp\Objects\Values\ShopDomain;
 use Osiset\ShopifyApp\Objects\Values\AccessToken;
 use Osiset\ShopifyApp\Contracts\ApiHelper as IApiHelper;
 use Osiset\ShopifyApp\Contracts\ShopModel as IShopModel;
+use Osiset\ShopifyApp\Contracts\ShopProvider as IShopProvider;
 use Osiset\ShopifyApp\Objects\Values\NullableAccessToken;
 use Osiset\ShopifyApp\Contracts\Queries\Shop as IShopQuery;
 use Osiset\ShopifyApp\Contracts\Commands\Shop as IShopCommand;
@@ -370,7 +371,9 @@ class ShopSession
      */
     public function getShop(): ?IShopModel
     {
-        return $this->auth->guard()->user();
+        $shop = $this->auth->guard()->user();
+        if($shop instanceof IShopProvider) return $shop->shop();
+        return $shop;
     }
 
     /**
