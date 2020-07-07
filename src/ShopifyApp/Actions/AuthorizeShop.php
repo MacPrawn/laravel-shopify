@@ -83,6 +83,21 @@ class AuthorizeShop
             'url'       => null,
         ];
 
+        $scopes = $this->getConfig('api_scopes');
+        $reauth = false;
+        try {
+            $response = $apiHelper->doRequest('GET', '/admin/oauth/access_scopes.json');
+            if($response && isset($response['access_scopes']) && !empty($response['access_scopes'])) {
+                $required_scopes = explode(',', $scopes);
+                foreach($response['access_scopes'] as $granted_scope) {
+                    $index = array_search($granted_scope['handle'], $required_scopes);
+                    if($index !== FALSE) unset($required_scopes[$index]);
+                }
+                $reauth = (count($required_scopes) > 0);
+            }
+        } catch(\Exception $exception) {
+        }
+
         // Start the process
         if (empty($code)) {
             // Access/grant mode
@@ -91,7 +106,7 @@ class AuthorizeShop
                 AuthMode::OFFLINE();
 
             // Call the partial callback with the shop and auth URL as params
-            $return['url'] = $apiHelper->buildAuthUrl($grantMode, $this->getConfig('api_scopes'));
+            $return['url'] = $apiHelper->buildAuthUrl($grantMode, $scopes);
         } else {
             // if the store has been deleted, restore the store to set the access token
             if ($shop->trashed()) {
