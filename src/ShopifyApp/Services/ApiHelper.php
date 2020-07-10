@@ -335,6 +335,20 @@ class ApiHelper implements IApiHelper
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getGrantedScopes(): ResponseAccess
+    {
+        // Fire the request
+        $response = $this->doRequest(
+            ApiMethod::GET(),
+            '/admin/oauth/access_scopes.json'
+        );
+
+        return $response['body']['access_scopes'];
+    }
+
+    /**
      * Fire the request using the API instance.
      *
      * @param ApiMode $method  The HTTP method.
